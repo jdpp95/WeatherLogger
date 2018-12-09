@@ -1,0 +1,36 @@
+<h1> <%= @location.name %> </h1>
+
+<strong>Department:</strong>
+<p style= "display: inline;">
+	<%= @location.department %>
+</p>
+
+<br>
+
+<strong>Coordinates:</strong>
+<p style= "display: inline;">
+	<%= @location.latitude%>, <%=@location.longitude %>
+</p>
+
+<br>
+
+<strong>Elevation:</strong>
+<p style= "display: inline;">
+	<%= @location.altitude %> m
+</p>
+
+<br>
+
+<%= link_to 'Back', locations_path %>
+<%= link_to 'Edit', edit_location_path %>
+<%= link_to 'Delete', location_path(@location),
+	method: :delete,
+	data: { confirm: 'Are you sure?' } 
+%>
+
+<table>
+	<tr>
+		<th>
+		</th>
+	</tr>
+</table>

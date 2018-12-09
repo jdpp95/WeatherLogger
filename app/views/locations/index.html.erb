@@ -1,0 +1,30 @@
+<h1>Weather Logger</h1>
+<p>In this page you can follow the behavior of weather in any place in the world.</p>
+<%= link_to 'New location', new_location_path %>
+
+<h2> Locations </h2>
+
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Department</th>
+		<th>Geographic coordinates</th>
+		<th>Elevation<th>
+		<th span="2">Actions<th>
+	</tr>
+
+	<% @locations.each do |loc| %>
+		<tr>
+			<td><%= link_to loc.name, location_path(loc)%></td>
+			<td><%= loc.department %></td>
+			<td><%= loc.latitude %>, <%= loc.longitude %></td>
+			<td><%= loc.altitude %>m</td>
+			<td><%= link_to 'Edit', edit_location_path(loc) %></td>
+			<td><%= link_to 'Delete', location_path(loc),
+					method: :delete,
+					data: { confirm: 'Are you sure?' } %></td>
+		</tr>
+	<% end %>
+</table>
+
+<%= link_to 'Back', root_path %>
