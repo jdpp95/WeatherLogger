@@ -21,6 +21,12 @@
 
 <br>
 
+<% unless @station.nil? %>
+<%= link_to 'Display station info', station_path(@station)%>
+<% end %>
+
+<br>
+
 <%= link_to 'Back', locations_path %>
 <%= link_to 'Edit', edit_location_path %>
 <%= link_to 'Delete', location_path(@location),
