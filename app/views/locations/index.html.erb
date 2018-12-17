@@ -18,7 +18,7 @@
 			<td><%= link_to loc.name, location_path(loc)%></td>
 			<td><%= loc.department %></td>
 			<td><%= loc.latitude %>, <%= loc.longitude %></td>
-			<td><%= loc.altitude %>m</td>
+			<td><%= loc.elevation %>m</td>
 			<td><%= link_to 'Edit', edit_location_path(loc) %></td>
 			<td><%= link_to 'Delete', location_path(loc),
 					method: :delete,
@@ -26,5 +26,3 @@
 		</tr>
 	<% end %>
 </table>
-
-<%= link_to 'Back', root_path %>

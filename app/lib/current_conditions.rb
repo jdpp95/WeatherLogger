@@ -1,4 +1,4 @@
-class Geolocation
+class CurrentConditions
 	include HTTParty
 
 	attr_reader :options
@@ -15,14 +15,29 @@ class Geolocation
 		}
 	end
 
-	def get_data(string_coordinates)
-		@options[:query][:q] = string_coordinates
+	def get_data(geolocation, last_24_hours)
 		#puts "Options hash" + @options.to_s
-		HTTParty.get('http://dataservice.accuweather.com/locations/v1/cities/geoposition/search', @options)
+		if last_24_hours
+			@options[:query][:details] = true
+			HTTParty.get('http://dataservice.accuweather.com/currentconditions/v1/' + 
+				geolocation.to_s + '/historical/24', @options)
+		else
+			HTTParty.get('http://dataservice.accuweather.com/currentconditions/v1/' + 
+				geolocation.to_s, @options)
+		end
 	end
 
-	def get_geolocation(string_coordinates)
-		data = get_data(string_coordinates)
+	def get_current_conditions(geolocation)
+		data = get_data(geolocation, false)
+		check_response(data)
+	end
+
+	def get_past_24_hours(geolocation)
+		data = get_data(geolocation, true)
+		check_response(data)
+	end
+
+	def check_response(data)
 		if data.code.to_i == 200
 			data.parsed_response
 		elsif data.code.to_i == 400
