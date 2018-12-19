@@ -7,6 +7,7 @@
   def show
   	@location = Location.find(params[:id])
     @station = Station.find(@location.station)
+    number_of_records = 0
     #@past_24_hours = CurrentConditions.new.get_past_24_hours(@station.id)
     
     if is_outdated(@location.id)
