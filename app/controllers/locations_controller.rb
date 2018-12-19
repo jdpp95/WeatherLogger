@@ -1,4 +1,4 @@
-class LocationsController < ApplicationController
+  class LocationsController < ApplicationController
 
 	def index
 		@locations = Location.all
@@ -11,14 +11,23 @@ class LocationsController < ApplicationController
     
     if is_outdated(@location.id)
       past_24_hours = CurrentConditions.new.get_past_24_hours(@station.id)
-      if past_24_hours == 503
-        raise 'Cannot update info'
-      else
+      unless past_24_hours == 503
         past_24_hours.each do |h|
-          puts h
-          #Check if it already exists
-          observation_time = h["LocalObservationDateTime"]
-          if Record.find_by(time: observation_time).nil?
+          #puts h
+          #Check if it already exists 
+          observation_time = Time.parse h["LocalObservationDateTime"]
+          last_observation = Record.where(location_id: @location.id).order(:time).last
+          last_observation_time = last_observation.nil? ? Time.now + 10.year : last_observation.time
+          puts "Observation time: " + observation_time.to_s
+          puts "Last observation_time: " + last_observation_time.to_s
+          number_of_records = Record.count
+
+          if last_observation_time != ""
+            puts "Timespan : " + (last_observation_time - observation_time).to_s
+          end
+
+          if observation_time > last_observation_time or number_of_records == 0
+            puts "New record......................................."
             record = Record.new
             record.time = observation_time
             t = h["Temperature"]["Metric"]["Value"]
@@ -29,6 +38,8 @@ class LocationsController < ApplicationController
             record.cloud_cover = h["CloudCover"]
             record.location = @location
             record.save
+          else
+            puts "Already exists.............................."
           end
         end
       end
@@ -38,18 +49,8 @@ class LocationsController < ApplicationController
       location_id: @location.id).order(:time)
 
     @conditions = (Record.order(:time).last).temperature
-
-=begin
-    current_conditions = CurrentConditions.new.get_current_conditions(@station.id)
-    if current_conditions == 503
-      @conditions = "-"
-    else
-      station_t = current_conditions[0]["Temperature"]["Metric"]["Value"]
-      @conditions = station_t + (@station.elevation - @location.elevation)/180
-    end
-=end
   end
-#https://www.google.com/maps/dir/4.611824,-74.2067825/'5.9841853,-72.7525802'/@5.1943473,-73.2430541,9z/data=!4m8!4m7!1m1!4e1!1m3!2m2!1d-72.7525802!2d5.9841853!3e0
+  
   def new
     @location = Location.new
   end
@@ -114,7 +115,7 @@ class LocationsController < ApplicationController
   private
 
   def location_params
-  	params.require(:location).permit(:name, :department, :country, :latitude, :longitude, :elevation)
+  	params.require(:location).permit(:name, :department, :country, :latitude, :longitude, :elevation, :city)
   end
 
   def is_outdated(loc_id)
@@ -123,6 +124,8 @@ class LocationsController < ApplicationController
     end
 
     last_record_time = (Record.where(location_id: loc_id).order(:time).last).time
+    puts "Last record time: " + last_record_time.to_s
+    puts "Timespan : " + (Time.now - last_record_time).to_s
     return (Time.now - last_record_time) > 1.hour
   end
 

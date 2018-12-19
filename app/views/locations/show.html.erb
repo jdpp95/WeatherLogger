@@ -1,7 +1,7 @@
-<% if @station.nil? %>
-	<h1> <%= @location.name %> </h1>
+<% if @location.name.nil? or @location.name.empty? %>
+	<h1> <%= @location.city %> </h1>
 <% else %>
-	<h1> <%= @location.name %>, <%= @station.place %> </h1>
+	<h1> <%= @location.name %>, <%= @location.city %> </h1>
 <% end %>
 
 
@@ -29,7 +29,11 @@
 <% unless @conditions.to_s == "-" %>
 	<strong>Current Conditions:</strong>
 	<p style= "display: inline;">
-		<%= @conditions.round %> °C
+		<% if @conditions.nil? %>
+			<%= 'Conditions not available!' %>
+		<% else %>
+			<%= @conditions.round %> °C
+		<% end %>
 	</p>
 <% else %>
 	<%= "Service unavailable" %>
@@ -59,14 +63,16 @@
 		<th>Weather</th>
 		<th>Cloudiness</th>
 	</tr>
-	<% @past_24_hours.each do |record| %>
-		<tr>
-			<td><%= (record.time - 5.hours + 5.minutes).strftime("%Y/%m/%d") %></td>
-			<td><%= (record.time - 5.hours + 5.minutes).strftime("%H:%M") %></td>
-			<td><%= record.temperature.round %> °C </td>
-			<td><%= record.humidity %>%</td>
-			<td><%= record.conditions %></td>
-			<td><%= record.cloud_cover %>%</td>
-		</tr>
+	<% unless @past_24_hours.nil? %>
+		<% @past_24_hours.each do |record| %>
+			<tr>
+				<td><%= (record.time - 5.hours + 5.minutes).strftime("%Y/%m/%d") %></td>
+				<td><%= (record.time - 5.hours + 5.minutes).strftime("%H:%M") %></td>
+				<td><%= record.temperature.round %> °C </td>
+				<td><%= record.humidity %>%</td>
+				<td><%= record.conditions %></td>
+				<td><%= record.cloud_cover %>%</td>
+			</tr>
+		<% end %>
 	<% end %>
 </table>
