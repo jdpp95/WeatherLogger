@@ -48,7 +48,7 @@
     @past_24_hours = Record.where(time: (Time.now - 1.day)..Time.now).where(
       location_id: @location.id).order(:time)
 
-    @conditions = (Record.order(:time).last).temperature
+    @conditions = (Record.where(location: @location).order(:time).last).temperature
   end
   
   def new

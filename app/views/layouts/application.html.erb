@@ -9,6 +9,18 @@
   </head>
 
   <body>
+  	<header>
+  		<nav>
+  			WeatherLogger
+  		</nav>
+  	</header>
+
     <%= yield %>
+
+    <div class="footer">
+    	<%= image_tag("AW_Stack_CMYK.jpg", alt: "Accuweather logo", class: "logo") %>	
+    	<p style="display: inline;"> Weather data provided by AccuWeather </p>
+    </div>
+
   </body>
 </html>
