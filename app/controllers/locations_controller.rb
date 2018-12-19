@@ -16,19 +16,17 @@
         past_24_hours.each do |h|
           #puts h
           #Check if it already exists 
-          observation_time = Time.parse h["LocalObservationDateTime"]
-          last_observation = Record.where(location_id: @location.id).order(:time).last
-          last_observation_time = last_observation.nil? ? Time.now + 10.year : last_observation.time
-          puts "Observation time: " + observation_time.to_s
-          puts "Last observation_time: " + last_observation_time.to_s
+          observation_time = (DateTime.parse h["LocalObservationDateTime"])
+          #last_observation = Record.where(location_id: @location.id).order(:time).last
+          #last_observation_time = last_observation.nil? ? Time.now + 10.year : last_observation.time
+          puts "h[time]: " + observation_time.to_s
+          existence = Record.where(location_id: @location.id)
+            .where(time: observation_time).exists?
+          #puts existence? ("exists :D" : "Does not exist!") + " *************************************"
           number_of_records = Record.count
 
-          if last_observation_time != ""
-            puts "Timespan : " + (last_observation_time - observation_time).to_s
-          end
-
-          if observation_time > last_observation_time or number_of_records == 0
-            puts "New record......................................."
+          if (not existence) or number_of_records == 0
+            #puts "New record......................................."
             record = Record.new
             record.time = observation_time
             t = h["Temperature"]["Metric"]["Value"]
@@ -39,8 +37,8 @@
             record.cloud_cover = h["CloudCover"]
             record.location = @location
             record.save
-          else
-            puts "Already exists.............................."
+          #else
+            #puts "Already exists.............................."
           end
         end
       end
