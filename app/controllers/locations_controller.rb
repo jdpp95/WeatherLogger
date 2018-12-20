@@ -20,7 +20,7 @@
           #last_observation = Record.where(location_id: @location.id).order(:time).last
           #last_observation_time = last_observation.nil? ? Time.now + 10.year : last_observation.time
           puts "h[time]: " + observation_time.to_s
-          existence = Record.where(location_id: @location.id)
+          existence = Record.where(station_id: @station.id)
             .where(time: observation_time).exists?
           #puts existence? ("exists :D" : "Does not exist!") + " *************************************"
           number_of_records = Record.count
@@ -30,12 +30,12 @@
             record = Record.new
             record.time = observation_time
             t = h["Temperature"]["Metric"]["Value"]
-            record.temperature = t + (@station.elevation - @location.elevation)/180
+            record.temperature = t
             record.humidity = h["RelativeHumidity"]
             record.conditions = h["WeatherText"]
             record.icon = h["WeatherIcon"]
             record.cloud_cover = h["CloudCover"]
-            record.location = @location
+            record.station = @station
             record.save
           #else
             #puts "Already exists.............................."
@@ -45,10 +45,11 @@
     end
 
     @past_24_hours = Record.where(time: (Time.now - 1.day)..Time.now).where(
-      location_id: @location.id).order(:time)
+      station_id: @location.station.id).order(:time)
 
     if number_of_records > 0
-      @conditions = (Record.where(location: @location).order(:time).last).temperature
+      @conditions = (Record.where(station: @station).order(:time).last).temperature 
+        + (@station.elevation - @location.elevation)/180
     else
       @conditions = nil
     end
@@ -121,8 +122,8 @@
   	params.require(:location).permit(:name, :department, :country, :latitude, :longitude, :elevation, :city)
   end
 
-  def is_outdated(loc_id)
-    if Record.where(location_id: loc_id).take.nil?
+  def is_outdated(st_id)
+    if Record.where(station_id: st_id).take.nil?
       return true
     end
 

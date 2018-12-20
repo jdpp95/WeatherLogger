@@ -13,8 +13,33 @@
  *= require_tree .
  *= require_self
  */
+ @import "bootstrap";
 
 .logo{
 	width: 50px;
 	display: inline;
+}
+
+h1, h2 {
+	text-align: center;
+}
+
+.background {
+	background-image: image-url("sky.jpg");
+	background-size: cover;
+}
+
+.main-container{
+	background-color: #000000E0;
+	padding: 25px;
+	margin-top: 40px;
+	margin-left: 30px;
+}
+
+a{
+	color: blue;
+}
+
+.footer{
+	font-size: 12px;
 }

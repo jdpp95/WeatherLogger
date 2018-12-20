@@ -26,21 +26,6 @@
 
 <br>
 
-<% unless @conditions.to_s == "-" %>
-	<strong>Current Conditions:</strong>
-	<p style= "display: inline;">
-		<% if @conditions.nil? %>
-			<%= 'Conditions not available!' %>
-		<% else %>
-			<%= @conditions.round %> °C
-		<% end %>
-	</p>
-<% else %>
-	<%= "Service unavailable" %>
-<% end %>
-
-<br>
-
 <% unless @station.nil? %>
 <%= link_to 'Display station info', station_path(@station)%>
 <% end %>
@@ -54,25 +39,27 @@
 	data: { confirm: 'Are you sure?' } 
 %>
 
-<table>
-	<tr>
-		<th>Date</th>
-		<th>Hour</th>
-		<th>Temperature</th>
-		<th>Humidity</th>
-		<th>Weather</th>
-		<th>Cloudiness</th>
-	</tr>
-	<% unless @past_24_hours.nil? %>
-		<% @past_24_hours.each do |record| %>
-			<tr>
-				<td><%= (record.time - 5.hours + 5.minutes).strftime("%Y/%m/%d") %></td>
-				<td><%= (record.time - 5.hours + 5.minutes).strftime("%H:%M") %></td>
-				<td><%= record.temperature.round %> °C </td>
-				<td><%= record.humidity %>%</td>
-				<td><%= record.conditions %></td>
-				<td><%= record.cloud_cover %>%</td>
-			</tr>
+<div class="table-responsive">
+	<table class="table text-center table-bordered table-hover table-secondary table-striped text-dark">
+		<tr>
+			<th>Date</th>
+			<th>Hour</th>
+			<th>Temperature</th>
+			<th>Humidity</th>
+			<th>Weather</th>
+			<th>Cloudiness</th>
+		</tr>
+		<% unless @past_24_hours.nil? %>
+			<% @past_24_hours.each do |record| %>
+				<tr>
+					<td><%= (record.time - 5.hours - 55.minutes).strftime("%Y/%m/%d") %></td>
+					<td><%= (record.time - 5.hours - 55.minutes).strftime("%H:%M") %></td>
+					<td><%= (record.temperature + (@station.elevation - @location.elevation)/180).round %> °C </td>
+					<td><%= record.humidity %>%</td>
+					<td><%= record.conditions %></td>
+					<td><%= record.cloud_cover %>%</td>
+				</tr>
+			<% end %>
 		<% end %>
-	<% end %>
-</table>
+	</table>
+</div>

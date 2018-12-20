@@ -3,24 +3,26 @@
   <head>
     <title>WeatherLogger</title>
     <%= csrf_meta_tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-  	<header>
-  		<nav>
-  			WeatherLogger
-  		</nav>
-  	</header>
+  <body class="background bg-info">
+    <div class="container main-container text-white">
+    	<header>
+    		<nav>
+    			WeatherLogger
+    		</nav>
+    	</header>
 
-    <%= yield %>
+      <%= yield %>
 
-    <div class="footer">
-    	<%= image_tag("AW_Stack_CMYK.jpg", alt: "Accuweather logo", class: "logo") %>	
-    	<p style="display: inline;"> Weather data provided by AccuWeather </p>
+      <div class="footer">
+      	<%= image_tag("AW_Stack_CMYK.png", alt: "Accuweather logo", class: "logo") %>	
+      	<p style="display: inline;"> Weather data provided by AccuWeather </p>
+      </div>
     </div>
-
   </body>
 </html>

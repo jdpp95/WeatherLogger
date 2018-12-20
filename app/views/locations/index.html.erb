@@ -4,29 +4,35 @@
 
 <h2> Locations </h2>
 
-<table>
-	<tr>
-		<th>Name</th>
-		<th>City</th>
-		<th>Department</th>
-		<th>Geographic coordinates</th>
-		<th>Elevation<th>
-		<th span="2">Actions<th>
-	</tr>
+<div class="table-responsive">
+	<table class="table text-center table-bordered table-hover table-secondary table-striped text-dark">
+		<thead class="thead-secondary">
+			<tr>
+				<th>Name</th>
+				<th>City</th>
+				<th>Department</th>
+				<th>Geographic coordinates</th>
+				<th>Elevation</th>
+				<th colspan=2>Actions</th>
+			</tr>
+		</thead>
 
-	<% @locations.each do |loc| %>
-		<tr>
-			<td>
-				<%= link_to loc.name.empty? ? loc.city : loc.name, location_path(loc)%>
-			</td>
-			<td><%= loc.city %></td>
-			<td><%= loc.department %></td>
-			<td><%= loc.latitude %>, <%= loc.longitude %></td>
-			<td><%= loc.elevation %>m</td>
-			<td><%= link_to 'Edit', edit_location_path(loc) %></td>
-			<td><%= link_to 'Delete', location_path(loc),
-					method: :delete,
-					data: { confirm: 'Are you sure?' } %></td>
-		</tr>
-	<% end %>
-</table>
+		<tbody>
+			<% @locations.each do |loc| %>
+				<tr>
+					<td>
+						<%= link_to loc.name.empty? ? loc.city : loc.name, location_path(loc)%>
+					</td>
+					<td><%= loc.city %></td>
+					<td><%= loc.department %></td>
+					<td><%= loc.latitude %>, <%= loc.longitude %></td>
+					<td><%= loc.elevation %>m</td>
+					<td><%= link_to 'Edit', edit_location_path(loc) %></td>
+					<td><%= link_to 'Delete', location_path(loc),
+							method: :delete,
+							data: { confirm: 'Are you sure?' } %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>

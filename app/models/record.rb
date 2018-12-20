@@ -1,3 +1,3 @@
 class Record < ApplicationRecord
-	belongs_to :location
+	belongs_to :station
 end

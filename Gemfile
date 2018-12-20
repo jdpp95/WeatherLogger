@@ -36,6 +36,7 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'figaro'
 gem 'httparty'
+gem 'bootstrap', '~> 4.1.3'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
