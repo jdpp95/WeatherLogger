@@ -1,0 +1,24 @@
+<%= form_for (@station) do |form| %>
+	<% if @station.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@station.errors.count, "error") %> prohibited this station from being saved:
+      </h2>
+      <ul>
+        <% @station.errors.full_messages.each do |msg| %>
+          <li> <%= msg %> </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>
+    <%= form.label :elevation %><br>
+    <%= form.text_field :elevation %>
+  </p>
+
+  <p>
+  	<%= form.submit %>
+  </p>
+
+<% end %>
