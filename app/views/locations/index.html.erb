@@ -1,8 +1,11 @@
 <h1>Weather Logger</h1>
-<p>In this page you can follow the behavior of weather in any place in the world.</p>
-<%= link_to 'New location', new_location_path %>
+<p>In this page you can follow the weather of any place you want, you only have to add a custom location, click update weather button and you will get the weather of the past 24 hours.</p>
+
+<br>
 
 <h2> Locations </h2>
+
+<br>
 
 <div class="table-responsive">
 	<table class="table text-center table-bordered table-hover table-secondary table-striped text-dark">
@@ -35,4 +38,12 @@
 			<% end %>
 		</tbody>
 	</table>
+</div>
+
+<div class="pagination">
+	<%= will_paginate @locations, previous_label: 'Previous', next_label: 'Next' %>
+</div>
+
+<div class="text-center">
+	<%= link_to 'Add new location', new_location_path, class: "btn btn-info" %>
 </div>

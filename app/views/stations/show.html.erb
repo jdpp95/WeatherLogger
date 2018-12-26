@@ -1,23 +1,29 @@
-<strong>Place name: </strong>
-<p style= "display: inline;">
-	<%= @station.place%>
-</p>
+<div class="bottom-right-margin-10">
+
+	<strong>Place name: </strong>
+	<p style= "display: inline;">
+		<%= @station.place%>
+	</p>
+
+	<br>
+
+	<strong>Coordinates:</strong>
+	<p style= "display: inline;">
+		<%= @station.latitude%>, <%=@station.longitude %>
+	</p>
+
+	<br>
+
+	<strong>Elevation:</strong>
+	<p style= "display: inline;">
+		<%= @station.elevation %> m
+	</p>
+
+</div>
 
 <br>
 
-<strong>Coordinates:</strong>
-<p style= "display: inline;">
-	<%= @station.latitude%>, <%=@station.longitude %>
-</p>
-
-<br>
-
-<strong>Elevation:</strong>
-<p style= "display: inline;">
-	<%= @station.elevation %> m
-</p>
-
-<br>
-
-<%= link_to 'Correct station data', edit_station_path(@station) %>
-<%= link_to 'Back', locations_path %>
+<div>
+	<%= link_to 'Back', locations_path, class: "btn btn-light" %>
+	<%= link_to 'Correct station data', edit_station_path(@station), class: "btn btn-warning" %>
+</div>

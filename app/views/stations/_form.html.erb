@@ -1,5 +1,11 @@
 <%= form_tag(update_station_temperature_path, method: "post") do %>
-	<%= label_tag(:temperature, "Actual temperature") %>
-	<%= text_field_tag (:temperature) %>
-	<%= submit_tag("Submit") %>
+	<div class="row">
+		<div class="col-sm-2">
+			<div class="form-group">
+				<%= label_tag(:temperature, "Actual temperature", class: "input-group-text mb-2") %>
+				<%= text_field_tag :temperature, "", class: "form-control mb-2" %>
+				<%= submit_tag("Submit", class: "btn btn-success") %>
+			</div>
+		</div>
+	</div>
 <% end %>

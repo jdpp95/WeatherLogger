@@ -1,7 +1,7 @@
   class LocationsController < ApplicationController
 
 	def index
-		@locations = Location.all
+		@locations = Location.paginate(page: params[:page], per_page: 10).all
 	end
 
   def show
@@ -29,13 +29,18 @@
 
   def create
   	@location = Location.new(location_params)
-    string_coordinates = @location.latitude.to_s + ", " + @location.longitude.to_s
 
+    unless  @location.valid? or @location.errors[:station].any?
+      render 'new'
+      return
+    end
+
+    string_coordinates = @location.latitude.to_s + ", " + @location.longitude.to_s
     geolocation = Geolocation.new.get_geolocation(string_coordinates)
 
     if geolocation == 503
       redirect_to service_unavailable_path
-    else
+    else#if !geolocation.nil?
       unless Station.exists?(geolocation["Key"])
         station = Station.new
         station.id = geolocation["Key"]
@@ -49,8 +54,8 @@
       #render json: geolocation, status: :ok
       #@location.station.create
 
-    	if @location.save
-    	 redirect_to @location
+      if @location.save
+       redirect_to @location
       else
         render 'new'
       end
