@@ -1,7 +1,7 @@
   class LocationsController < ApplicationController
 
 	def index
-		@locations = Location.paginate(page: params[:page], per_page: 10).all
+		@locations = Location.paginate(page: params[:page], per_page: 10).order(:updated_at).all
 	end
 
   def show
