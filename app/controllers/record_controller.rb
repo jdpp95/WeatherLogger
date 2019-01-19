@@ -5,9 +5,11 @@ class RecordController < ApplicationController
 		previous = nil
 		records.each do |r|
 			puts r.time.to_s + ", " + r.station_id.to_s
-			if(previous.station_id == r.station_id and previous.time == r.time)
-				previous = r
-				r.delete
+			unless previous.nil?
+				if(previous.station_id == r.station_id and previous.time == r.time)
+					previous = r
+					r.delete
+				end
 			end
 			previous = r
 		end
